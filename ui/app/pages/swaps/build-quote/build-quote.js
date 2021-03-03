@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import classnames from 'classnames';
 import { uniqBy } from 'lodash';
-import { useHistory } from 'react-router-dom';
+
 import { MetaMetricsContext } from '../../../contexts/metametrics.new';
 import { useTokensToSearch } from '../../../hooks/useTokensToSearch';
 import { useEqualityCheck } from '../../../hooks/useEqualityCheck';
@@ -68,6 +69,10 @@ export default function BuildQuote({
   );
   const [verificationClicked, setVerificationClicked] = useState(false);
 
+  const { search } = useLocation();
+  const urlParams = new window.URLSearchParams(search);
+  const queryFromAddress = urlParams.get('fromAddress');
+
   const balanceError = useSelector(getBalanceError);
   const fetchParams = useSelector(getFetchParams);
   const { sourceTokenInfo = {}, destinationTokenInfo = {} } =
@@ -93,11 +98,21 @@ export default function BuildQuote({
   );
   const memoizedUsersTokens = useEqualityCheck(usersTokens);
 
+  const queryFromToken =
+    queryFromAddress &&
+    (queryFromAddress === swapsEthToken.address
+      ? swapsEthToken
+      : memoizedUsersTokens.find(
+          (token) => token.address === queryFromAddress,
+        ));
+
+  const providedFromToken = [
+    fromToken,
+    fetchParamsFromToken,
+    queryFromToken,
+  ].find((token) => token?.address);
   const selectedFromToken = useTokensToSearch({
-    providedTokens:
-      fromToken || fetchParamsFromToken
-        ? [fromToken || fetchParamsFromToken]
-        : [],
+    providedTokens: providedFromToken ? [providedFromToken] : [],
     usersTokens: memoizedUsersTokens,
     onlyEth: (fromToken || fetchParamsFromToken)?.symbol === 'ETH',
     singleToken: true,
