@@ -4,6 +4,7 @@ import {
   decimalToHex,
   hexWEIToDecGWEI,
 } from '../../../../helpers/utils/conversions.util';
+import { setCustomGasIsExcessive } from '../../../../store/actions';
 import AdvancedGasInputs from './advanced-gas-inputs.component';
 
 function convertGasPriceForInputs(gasPriceInHexWEI) {
@@ -13,6 +14,14 @@ function convertGasPriceForInputs(gasPriceInHexWEI) {
 function convertGasLimitForInputs(gasLimitInHexWEI) {
   return parseInt(gasLimitInHexWEI, 16) || 0;
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCustomGasIsExcessive: (isExcessive) => {
+      return dispatch(setCustomGasIsExcessive(isExcessive));
+    },
+  };
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const {
@@ -33,4 +42,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export default connect(null, null, mergeProps)(AdvancedGasInputs);
+export default connect(null, mapDispatchToProps, mergeProps)(AdvancedGasInputs);

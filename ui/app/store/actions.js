@@ -2763,6 +2763,13 @@ export function setNextNonce(nextNonce) {
   };
 }
 
+export function setCustomGasIsExcessive(isExcessive) {
+  return {
+    type: actionConstants.SET_CUSTOM_GAS_IS_EXCESSIVE,
+    value: isExcessive,
+  };
+}
+
 export function getNextNonce() {
   return (dispatch, getState) => {
     const address = getState().metamask.selectedAddress;

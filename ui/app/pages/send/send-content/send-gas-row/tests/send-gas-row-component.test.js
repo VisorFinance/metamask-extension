@@ -11,6 +11,7 @@ import GasPriceButtonGroup from '../../../../../components/app/gas-customization
 const propsMethodSpies = {
   showCustomizeGasModal: sinon.spy(),
   resetGasButtons: sinon.spy(),
+  resetGasWarning: sinon.spy(),
 };
 
 describe('SendGasRow Component', function () {
@@ -28,6 +29,7 @@ describe('SendGasRow Component', function () {
           gasButtonGroupShown={false}
           showCustomizeGasModal={propsMethodSpies.showCustomizeGasModal}
           resetGasButtons={propsMethodSpies.resetGasButtons}
+          resetGasWarning={propsMethodSpies.resetGasWarning}
           gasPriceButtonGroupProps={{
             someGasPriceButtonGroupProp: 'foo',
             anotherGasPriceButtonGroupProp: 'bar',
@@ -71,8 +73,10 @@ describe('SendGasRow Component', function () {
       assert.strictEqual(gasLoadingError, false);
       assert.strictEqual(gasTotal, 'mockGasTotal');
       assert.strictEqual(propsMethodSpies.resetGasButtons.callCount, 0);
+      assert.strictEqual(propsMethodSpies.resetGasWarning.callCount, 0);
       onReset();
       assert.strictEqual(propsMethodSpies.resetGasButtons.callCount, 1);
+      assert.strictEqual(propsMethodSpies.resetGasWarning.callCount, 1);
     });
 
     it('should render the GasPriceButtonGroup if gasButtonGroupShown is true', function () {

@@ -23,6 +23,7 @@ import {
   getSelectedAddress,
   getAddressBook,
   getSendTokenAddress,
+  getCachedIsCustomPriceExcessive,
 } from '../../selectors';
 
 import {
@@ -67,6 +68,7 @@ function mapStateToProps(state) {
     tokenBalance: getTokenBalance(state),
     tokenContract: getSendTokenContract(state),
     sendTokenAddress: getSendTokenAddress(state),
+    gasIsExcessive: getCachedIsCustomPriceExcessive(state),
   };
 }
 

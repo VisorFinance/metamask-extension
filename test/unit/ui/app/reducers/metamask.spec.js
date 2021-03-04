@@ -424,4 +424,16 @@ describe('MetaMask Reducers', function () {
     assert.deepEqual(state.send.ensResolutionError, 'ens name not found');
     assert.deepEqual(state.send.ensResolution, null);
   });
+
+  it('update customGasIsExcessive', function () {
+    const state = reduceMetamask(
+      {},
+      {
+        type: actionConstants.SET_CUSTOM_GAS_IS_EXCESSIVE,
+        value: true,
+      },
+    );
+
+    assert.deepEqual(state.customGasIsExcessive, true);
+  });
 });

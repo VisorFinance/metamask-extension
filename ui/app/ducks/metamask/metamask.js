@@ -47,6 +47,7 @@ export default function reduceMetamask(state = {}, action) {
     participateInMetaMetrics: null,
     metaMetricsSendCount: 0,
     nextNonce: null,
+    customGasIsExcessive: false,
     ...state,
   };
 
@@ -364,6 +365,13 @@ export default function reduceMetamask(state = {}, action) {
       return {
         ...metamaskState,
         nextNonce: action.value,
+      };
+    }
+
+    case actionConstants.SET_CUSTOM_GAS_IS_EXCESSIVE: {
+      return {
+        ...metamaskState,
+        customGasIsExcessive: action.value,
       };
     }
 

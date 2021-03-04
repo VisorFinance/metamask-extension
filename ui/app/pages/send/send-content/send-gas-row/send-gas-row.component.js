@@ -26,6 +26,7 @@ export default class SendGasRow extends Component {
     gasLimit: PropTypes.string,
     insufficientBalance: PropTypes.bool,
     isMainnet: PropTypes.bool,
+    resetGasWarning: PropTypes.func,
   };
 
   static contextTypes = {
@@ -92,6 +93,7 @@ export default class SendGasRow extends Component {
       gasLimit,
       insufficientBalance,
       isMainnet,
+      resetGasWarning,
     } = this.props;
     const { metricsEvent } = this.context;
 
@@ -123,6 +125,7 @@ export default class SendGasRow extends Component {
         gasTotal={gasTotal}
         onReset={() => {
           resetGasButtons();
+          resetGasWarning();
           if (maxModeOn) {
             this.setMaxAmount();
           }

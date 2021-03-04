@@ -20,6 +20,8 @@ export default class AdvancedGasInputs extends Component {
     isSpeedUp: PropTypes.bool,
     customGasLimitMessage: PropTypes.string,
     minimumGasLimit: PropTypes.number,
+    customPriceIsExcessive: PropTypes.bool,
+    setCustomGasIsExcessive: PropTypes.func,
   };
 
   static defaultProps = {
@@ -52,6 +54,11 @@ export default class AdvancedGasInputs extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { customPriceIsExcessive, setCustomGasIsExcessive } = this.props;
+    setCustomGasIsExcessive(customPriceIsExcessive);
+  }
+
   onChangeGasLimit = (e) => {
     this.setState({ gasLimit: e.target.value });
     this.changeGasLimit({ target: { value: e.target.value } });
@@ -75,6 +82,7 @@ export default class AdvancedGasInputs extends Component {
     customPriceIsSafe,
     isSpeedUp,
     gasPrice,
+    customPriceIsExcessive,
   }) {
     const { t } = this.context;
 
@@ -92,6 +100,11 @@ export default class AdvancedGasInputs extends Component {
       return {
         errorText: t('gasPriceExtremelyLow'),
         errorType: 'warning',
+      };
+    } else if (customPriceIsExcessive) {
+      return {
+        errorText: t('gasPriceExcessiveInput'),
+        errorType: 'error',
       };
     }
 
@@ -185,6 +198,7 @@ export default class AdvancedGasInputs extends Component {
       isSpeedUp,
       customGasLimitMessage,
       minimumGasLimit,
+      customPriceIsExcessive,
     } = this.props;
     const { gasPrice, gasLimit } = this.state;
 
@@ -196,6 +210,7 @@ export default class AdvancedGasInputs extends Component {
       customPriceIsSafe,
       isSpeedUp,
       gasPrice,
+      customPriceIsExcessive,
     });
     const gasPriceErrorComponent = gasPriceErrorType ? (
       <div

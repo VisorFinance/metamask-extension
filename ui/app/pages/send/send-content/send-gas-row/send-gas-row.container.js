@@ -36,6 +36,7 @@ import {
   setGasLimit,
   setGasTotal,
   updateSendAmount,
+  setCustomGasIsExcessive,
 } from '../../../../store/actions';
 import SendGasRow from './send-gas-row.component';
 
@@ -112,6 +113,9 @@ function mapDispatchToProps(dispatch) {
     },
     showGasButtonGroup: () => dispatch(showGasButtonGroup()),
     resetCustomData: () => dispatch(resetCustomData()),
+    resetGasWarning: () => {
+      dispatch(setCustomGasIsExcessive(false));
+    },
   };
 }
 
